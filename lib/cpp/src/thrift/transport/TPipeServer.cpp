@@ -22,7 +22,7 @@
 
 #include <thrift/transport/TPipe.h>
 #include <thrift/transport/TPipeServer.h>
-#include <boost/noncopyable.hpp>
+#include <thrift/thrift-tl.h>
 
 #ifdef _WIN32
 #include <thrift/windows/OverlappedSubmissionThread.h>
@@ -38,7 +38,7 @@ namespace transport {
 
 using std::shared_ptr;
 
-class TPipeServerImpl : boost::noncopyable {
+class TPipeServerImpl : noncopyable {
 public:
   TPipeServerImpl() {}
   virtual ~TPipeServerImpl() {}

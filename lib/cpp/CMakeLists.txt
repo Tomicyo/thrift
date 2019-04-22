@@ -18,8 +18,8 @@
 #
 
 # Remove the following once lib/cpp no longer depends on boost headers:
-include(BoostMacros)
-REQUIRE_BOOST_HEADERS()
+# include(BoostMacros)
+# REQUIRE_BOOST_HEADERS()
 
 include_directories(src)
 
@@ -34,6 +34,7 @@ set(SYSLIBS "")
 set( thriftcpp_SOURCES
    src/thrift/TApplicationException.cpp
    src/thrift/TOutput.cpp
+   src/thrift/thrift-tl.cpp
    src/thrift/async/TAsyncChannel.cpp
    src/thrift/async/TAsyncProtocolProcessor.cpp
    src/thrift/async/TConcurrentClientSyncInfo.h

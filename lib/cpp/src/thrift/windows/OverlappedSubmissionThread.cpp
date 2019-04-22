@@ -1,26 +1,26 @@
 /*
-* Licensed to the Apache Software Foundation (ASF) under one
-* or more contributor license agreements. See the NOTICE file
-* distributed with this work for additional information
-* regarding copyright ownership. The ASF licenses this file
-* to you under the Apache License, Version 2.0 (the
-* "License"); you may not use this file except in compliance
-* with the License. You may obtain a copy of the License at
-*
-*   http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing,
-* software distributed under the License is distributed on an
-* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-* KIND, either express or implied. See the License for the
-* specific language governing permissions and limitations
-* under the License.
-*/
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 
-#include <thrift/windows/OverlappedSubmissionThread.h>
+#include <thrift/thrift-tl.h>
 #include <thrift/transport/TTransportException.h>
-#include <boost/noncopyable.hpp>
-#include <boost/scope_exit.hpp>
+#include <thrift/windows/OverlappedSubmissionThread.h>
+//#include <boost/scope_exit.hpp>
 #include <process.h>
 
 namespace apache {
@@ -35,8 +35,7 @@ TOverlappedWorkItem::TOverlappedWorkItem()
     buffer_len(0),
     overlap(),
     last_error(0),
-    success(TRUE) {
-}
+    success(TRUE) {}
 
 void TOverlappedWorkItem::reset(uint8_t* buf, uint32_t len, HANDLE event) {
   memset(&overlap, 0, sizeof(overlap));
@@ -59,8 +58,12 @@ uint32_t TOverlappedWorkItem::overlappedResults(bool signal_failure) {
 }
 
 bool TOverlappedWorkItem::process() {
-  BOOST_SCOPE_EXIT((&doneSubmittingEvent)) { SetEvent(doneSubmittingEvent.h); }
-  BOOST_SCOPE_EXIT_END
+  struct ScopeExit {
+    TAutoResetEvent& doneSubmittingEvent;
+    ScopeExit(TAutoResetEvent& doneEvent) : doneSubmittingEvent(doneEvent) {}
+    ~ScopeExit() { SetEvent(doneSubmittingEvent.h); }
+  };
+  ScopeExit scopeExit(doneSubmittingEvent);
 
   switch (action) {
   case (CONNECT):
@@ -146,6 +149,6 @@ unsigned __stdcall TOverlappedSubmissionThread::thread_proc(void* addr) {
 TCriticalSection TOverlappedSubmissionThread::instanceGuard_;
 TOverlappedSubmissionThread* TOverlappedSubmissionThread::instance_;
 uint32_t TOverlappedSubmissionThread::instanceRefCount_ = 0;
-}
-}
-} // apach::thrift::transport
+} // namespace transport
+} // namespace thrift
+} // namespace apache

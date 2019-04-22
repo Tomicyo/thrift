@@ -46,7 +46,7 @@ namespace concurrency {
  *
  * @version $Id:$
  */
-class Monitor : boost::noncopyable {
+class Monitor : noncopyable {
 public:
   /** Creates a new mutex, and takes ownership of it. */
   Monitor();

@@ -30,8 +30,7 @@
 
 #include <thrift/thrift-config.h>
 
-// boost
-#include <boost/noncopyable.hpp>
+#include <thrift/thrift-tl.h>
 
 #include <memory>
 #include <mutex>
@@ -45,7 +44,7 @@ namespace transport {
  * Winsock2 must be intialised once only in order to create sockets. This class
  * performs a one time initialisation when create is called.
  */
-class TWinsockSingleton : private boost::noncopyable {
+class TWinsockSingleton : private noncopyable {
 
 public:
   typedef std::shared_ptr<TWinsockSingleton> instance_ptr;

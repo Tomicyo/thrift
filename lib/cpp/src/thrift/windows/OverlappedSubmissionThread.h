@@ -25,7 +25,7 @@
 #endif
 
 #include <thrift/windows/Sync.h>
-#include <boost/noncopyable.hpp>
+#include <thrift/thrift-tl.h>
 #include <Windows.h>
 
 /*
@@ -89,7 +89,7 @@ struct DECLSPEC_ALIGN(MEMORY_ALLOCATION_ALIGNMENT) TOverlappedWorkItem : public 
   bool process();
 };
 
-class TOverlappedSubmissionThread : boost::noncopyable {
+class TOverlappedSubmissionThread : noncopyable {
 public:
   void addWorkItem(TOverlappedWorkItem* item);
 
@@ -117,7 +117,7 @@ private:
   HANDLE thread_;
 };
 
-class TAutoOverlapThread : boost::noncopyable {
+class TAutoOverlapThread : noncopyable {
 private:
   TOverlappedSubmissionThread* p;
 

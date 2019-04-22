@@ -17,8 +17,8 @@
 # under the License.
 #
 
-include(BoostMacros)
-REQUIRE_BOOST_HEADERS()
+# include(BoostMacros)
+# REQUIRE_BOOST_HEADERS()
 
 #Make sure gen-cpp files can be included
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")

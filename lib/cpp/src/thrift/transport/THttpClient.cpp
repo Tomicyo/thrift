@@ -20,7 +20,6 @@
 #include <limits>
 #include <cstdlib>
 #include <sstream>
-#include <boost/algorithm/string.hpp>
 
 #include <thrift/config.h>
 #include <thrift/transport/THttpClient.h>
@@ -53,11 +52,11 @@ void THttpClient::parseHeader(char* header) {
   }
   char* value = colon + 1;
 
-  if (boost::istarts_with(header, "Transfer-Encoding")) {
-    if (boost::iends_with(value, "chunked")) {
+  if (istarts_with(header, "Transfer-Encoding")) {
+    if (iends_with(value, "chunked")) {
       chunked_ = true;
     }
-  } else if (boost::istarts_with(header, "Content-Length")) {
+  } else if (istarts_with(header, "Content-Length")) {
     chunked_ = false;
     contentLength_ = atoi(value);
   }

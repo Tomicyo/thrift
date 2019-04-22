@@ -23,7 +23,7 @@
 #include <thrift/protocol/TProtocolDecorator.h>
 #include <thrift/TApplicationException.h>
 #include <thrift/TProcessor.h>
-#include <boost/tokenizer.hpp>
+//#include <boost/tokenizer.hpp>
 
 namespace apache {
 namespace thrift {
@@ -165,10 +165,11 @@ public:
     }
 
     // Extract the service name
-    boost::tokenizer<boost::char_separator<char> > tok(name, boost::char_separator<char>(":"));
+    //boost::tokenizer<boost::char_separator<char> > tok(name, boost::char_separator<char>(":"));
 
     std::vector<std::string> tokens;
-    std::copy(tok.begin(), tok.end(), std::back_inserter(tokens));
+    split_string(name, tokens, ":");
+    //std::copy(tok.begin(), tok.end(), std::back_inserter(tokens));
 
     // A valid message should consist of two tokens: the service
     // name and the name of the method to call.

@@ -23,7 +23,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <limits>
-#include <boost/scoped_array.hpp>
 
 #include <thrift/transport/TTransport.h>
 #include <thrift/transport/TVirtualTransport.h>
@@ -274,8 +273,8 @@ protected:
 
   uint32_t rBufSize_;
   uint32_t wBufSize_;
-  boost::scoped_array<uint8_t> rBuf_;
-  boost::scoped_array<uint8_t> wBuf_;
+  scoped_array<uint8_t> rBuf_;
+  scoped_array<uint8_t> wBuf_;
 };
 
 /**
@@ -411,8 +410,8 @@ protected:
 
   uint32_t rBufSize_;
   uint32_t wBufSize_;
-  boost::scoped_array<uint8_t> rBuf_;
-  boost::scoped_array<uint8_t> wBuf_;
+  scoped_array<uint8_t> rBuf_;
+  scoped_array<uint8_t> wBuf_;
   uint32_t bufReclaimThresh_;
   uint32_t maxFrameSize_;
 };

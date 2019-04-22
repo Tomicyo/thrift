@@ -25,7 +25,7 @@
 #endif
 
 #include <thrift/concurrency/Exception.h>
-#include <boost/noncopyable.hpp>
+#include <thrift/thrift-tl.h>
 #include <Windows.h>
 
 /*
@@ -36,13 +36,13 @@
 namespace apache {
 namespace thrift {
 
-struct TCriticalSection : boost::noncopyable {
+struct TCriticalSection : noncopyable {
   CRITICAL_SECTION cs;
   TCriticalSection() { InitializeCriticalSection(&cs); }
   ~TCriticalSection() { DeleteCriticalSection(&cs); }
 };
 
-class TAutoCrit : boost::noncopyable {
+class TAutoCrit : noncopyable {
 private:
   CRITICAL_SECTION* cs_;
 
@@ -51,7 +51,7 @@ public:
   ~TAutoCrit() { LeaveCriticalSection(cs_); }
 };
 
-struct TAutoResetEvent : boost::noncopyable {
+struct TAutoResetEvent : noncopyable {
   HANDLE h;
 
   TAutoResetEvent() {
@@ -64,7 +64,7 @@ struct TAutoResetEvent : boost::noncopyable {
   ~TAutoResetEvent() { CloseHandle(h); }
 };
 
-struct TManualResetEvent : boost::noncopyable {
+struct TManualResetEvent : noncopyable {
   HANDLE h;
 
   TManualResetEvent() {
@@ -77,7 +77,7 @@ struct TManualResetEvent : boost::noncopyable {
   ~TManualResetEvent() { CloseHandle(h); }
 };
 
-struct TAutoHandle : boost::noncopyable {
+struct TAutoHandle : noncopyable {
   HANDLE h;
   explicit TAutoHandle(HANDLE h_ = INVALID_HANDLE_VALUE) : h(h_) {}
   ~TAutoHandle() {

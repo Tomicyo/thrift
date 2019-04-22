@@ -20,7 +20,6 @@
 #ifndef _THRIFT_TRANSPORT_TTRANSPORTEXCEPTION_H_
 #define _THRIFT_TRANSPORT_TTRANSPORTEXCEPTION_H_ 1
 
-#include <boost/numeric/conversion/cast.hpp>
 #include <string>
 #include <thrift/Thrift.h>
 

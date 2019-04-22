@@ -19,7 +19,7 @@
 
 #include <thrift/protocol/TJSONProtocol.h>
 
-#include <boost/locale.hpp>
+//#include <boost/locale.hpp>
 
 #include <cmath>
 #include <limits>
@@ -763,7 +763,8 @@ uint32_t TJSONProtocol::readJSONString(std::string& str, bool skipContext) {
           }
           codeunits.push_back(cp);
           codeunits.push_back(0);
-          str += boost::locale::conv::utf_to_utf<char>(codeunits.data());
+          //str += boost::locale::conv::utf_to_utf<char>(codeunits.data());
+          str += utf16_to_utf8(codeunits);
           codeunits.clear();
         }
         continue;

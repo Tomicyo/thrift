@@ -8,7 +8,7 @@ namespace unix {
 class unicode_converter {
 public:
   unicode_converter() : conv_((iconv_t)-1) {
-    conv_ = iconv_open("UTF-16LE", "UTF-8");
+    conv_ = iconv_open("UTF-8", "UTF-16LE");
   }
   ~unicode_converter() {
     if((iconv_t)-1 != conv_) {
@@ -17,6 +17,20 @@ public:
   }
   std::string do_convert(std::vector<uint16_t> const& data) {
     std::string ret;
+    size_t length = data.size();
+    if(length > 0) {
+      auto ptr_src = data.data();
+      size_t bytes_src = length * sizeof(uint16_t);
+      size_t bytes_dest = 0;
+      iconv(conv_, (char**)&ptr_src, &bytes_src, nullptr, &bytes_dest);
+      if(bytes_dest > 0) {
+        ret.reserve(bytes_dest + 1);
+        ret.resize(bytes_dest);
+        auto ptr_dest = ret.data();
+        iconv(conv_,(char**)&ptr_src, &bytes_src,
+              (char**)&ptr_dest, &bytes_dest);
+      }
+    }
     return ret;
   }
 private:

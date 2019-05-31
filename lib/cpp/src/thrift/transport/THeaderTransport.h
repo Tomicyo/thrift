@@ -27,13 +27,12 @@
 #include <string>
 #include <map>
 
+#include <stdint.h>
 #ifdef HAVE_STDINT_H
 #include <stdint.h>
 #elif HAVE_INTTYPES_H
 #include <inttypes.h>
 #endif
-
-#include <boost/scoped_array.hpp>
 
 #include <thrift/protocol/TProtocolTypes.h>
 #include <thrift/transport/TBufferTransports.h>
@@ -221,7 +220,7 @@ protected:
 
   // Buffers to use for transform processing
   uint32_t tBufSize_;
-  boost::scoped_array<uint8_t> tBuf_;
+  scoped_array<uint8_t> tBuf_;
 
   void readString(uint8_t*& ptr, /* out */ std::string& str, uint8_t const* headerBoundary);
 

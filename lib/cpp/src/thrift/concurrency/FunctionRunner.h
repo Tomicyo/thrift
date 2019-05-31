@@ -22,6 +22,7 @@
 
 #include <thrift/concurrency/Thread.h>
 #include <memory>
+#include <unistd.h>
 
 namespace apache {
 namespace thrift {

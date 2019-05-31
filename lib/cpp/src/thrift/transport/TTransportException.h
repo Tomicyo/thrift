@@ -90,7 +90,7 @@ protected:
  */
 template <typename To, typename From> To safe_numeric_cast(From i) {
   try {
-    return boost::numeric_cast<To>(i);
+    return static_cast<To>(i);
   }
   catch (const std::bad_cast& bc) {
     throw TTransportException(TTransportException::CORRUPTED_DATA,

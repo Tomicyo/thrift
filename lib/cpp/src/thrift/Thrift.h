@@ -23,6 +23,7 @@
 #include <thrift/transport/PlatformSocket.h>
 
 #include <thrift/thrift-config.h>
+#include <thrift/thrift-tl.h>
 
 #include <stdio.h>
 #include <assert.h>

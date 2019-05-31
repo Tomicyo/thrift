@@ -180,6 +180,10 @@ if(MSVC)
     add_definitions("-DUNICODE -D_UNICODE")
 endif()
 
+if(APPLE)
+TARGET_LINK_LIBRARIES_THRIFT(thrift iconv)
+endif()
+
 # Install the headers
 install(DIRECTORY "src/thrift" DESTINATION "${INCLUDE_INSTALL_DIR}"
     FILES_MATCHING PATTERN "*.h" PATTERN "*.tcc")

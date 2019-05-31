@@ -2,6 +2,29 @@
 
 #ifdef _WIN32
 #include <Windows.h>
+#else
+#include <iconv.h>
+namespace unix {
+class unicode_converter {
+public:
+  unicode_converter() : conv_((iconv_t)-1) {
+    conv_ = iconv_open("UTF-16LE", "UTF-8");
+  }
+  ~unicode_converter() {
+    if((iconv_t)-1 != conv_) {
+      iconv_close(conv_);
+    }
+  }
+  std::string do_convert(std::vector<uint16_t> const& data) {
+    std::string ret;
+    return ret;
+  }
+private:
+  iconv_t conv_;
+};
+
+static unicode_converter uc;
+}
 #endif
 
 namespace apache {
@@ -47,11 +70,15 @@ void split_string(const std::string& s, std::vector<std::string>& v, const std::
 std::string utf16_to_utf8(std::vector<uint16_t> const& data) {
   if (data.empty())
     return "";
+#if _WIN32
   int size_needed
       = WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)data.data(), data.size(), NULL, 0, NULL, NULL);
   std::string strTo(size_needed, 0);
   WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)data.data(), data.size(), &strTo[0], size_needed,
                       NULL, NULL);
+#else
+  std::string strTo = unix::uc.do_convert(data);
+#endif
   return strTo;
 }
 } // namespace thrift
